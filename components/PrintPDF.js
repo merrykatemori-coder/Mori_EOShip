@@ -21,6 +21,7 @@ function toDataURL(url) {
 }
 
 export async function printExportPDF(data, boxes) {
+  const logoBase64 = await toDataURL('/logo.png') || '';
   const fields = [
     ['Order Code', data.order_code], ['Client', data.client],
     ['Date', data.export_date], ['MAWB No', data.mawb_no],
@@ -44,7 +45,8 @@ export async function printExportPDF(data, boxes) {
           if (d) photosHTML += `<div style="display:inline-block;margin:4px;text-align:center"><img src="${d}" style="max-height:100px;border-radius:6px"/><div style="font-size:9px;color:#888;margin-top:2px">${label}</div></div>`;
         }
       }
-      const items = (b.items || []).map(it => `<tr><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.item||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px;text-align:center">${it.unit||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.type||'-'}</td></tr>`).join('');
+      const rawItems = typeof b.items === 'string' ? JSON.parse(b.items || '[]') : (b.items || []);
+      const items = rawItems.map(it => `<tr><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.item||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px;text-align:center">${it.unit||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.type||'-'}</td></tr>`).join('');
       boxesHTML += `
         <div style="margin-top:12px;padding:12px;border:1px solid #e0d8d0;border-radius:8px;background:#faf8f5">
           <div style="font-weight:700;color:#c0392b;margin-bottom:6px;font-size:13px">${b.box_code || 'Box'}</div>
@@ -60,10 +62,11 @@ export async function printExportPDF(data, boxes) {
     }
   }
 
-  openPrintWindow('Export — ' + (data.order_code || ''), fields, boxesHTML ? `<div style="margin-top:16px"><div style="font-size:14px;font-weight:700;color:#c0392b;margin-bottom:8px">Boxes (${boxes.length})</div>${boxesHTML}</div>` : '');
+  openPrintWindow('Export — ' + (data.order_code || ''), fields, boxesHTML ? `<div style="margin-top:16px"><div style="font-size:14px;font-weight:700;color:#c0392b;margin-bottom:8px">Boxes (${boxes.length})</div>${boxesHTML}</div>` : '', logoBase64);
 }
 
 export async function printClientPDF(data) {
+  const logoBase64 = await toDataURL('/logo.png') || '';
   const fields = [
     ['Client Code', data.client_code], ['Name', data.name],
     ['Nationality', data.nationality], ['Gender', data.gender],
@@ -85,10 +88,11 @@ export async function printClientPDF(data) {
     }
   }
 
-  openPrintWindow('Client — ' + (data.name || ''), fields, imagesHTML ? `<div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0d8d0"><div style="font-size:13px;font-weight:700;margin-bottom:8px">Images</div>${imagesHTML}</div>` : '');
+  openPrintWindow('Client — ' + (data.name || ''), fields, imagesHTML ? `<div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0d8d0"><div style="font-size:13px;font-weight:700;margin-bottom:8px">Images</div>${imagesHTML}</div>` : '', logoBase64);
 }
 
 export async function printNotePDF(data) {
+  const logoBase64 = await toDataURL('/logo.png') || '';
   const fields = [
     ['Date', data.date], ['Topic', data.topic],
     ['Type', data.type], ['Description', data.description],
@@ -102,10 +106,11 @@ export async function printNotePDF(data) {
     }
   }
 
-  openPrintWindow('Note — ' + (data.topic || ''), fields, imagesHTML ? `<div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0d8d0"><div style="font-size:13px;font-weight:700;margin-bottom:8px">Images</div>${imagesHTML}</div>` : '');
+  openPrintWindow('Note — ' + (data.topic || ''), fields, imagesHTML ? `<div style="margin-top:16px;padding-top:12px;border-top:1px solid #e0d8d0"><div style="font-size:13px;font-weight:700;margin-bottom:8px">Images</div>${imagesHTML}</div>` : '', logoBase64);
 }
 
-export function printInvoicePDF(ef) {
+export async function printInvoicePDF(ef) {
+  const logoBase64 = await toDataURL('/logo.png') || '';
   const today = new Date();
   const dateStr = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
   const priceLine = (parseFloat(ef.price_per_kg)||0) * (parseFloat(ef.weight_result)||0);
@@ -155,7 +160,7 @@ table.items td:nth-child(2){text-align:left}
     <h2>Receipt</h2>
   </div>
   <div class="header-right">
-    <img src="${LOGO_URL}" alt="Logo" />
+    <img src="${logoBase64}" alt="Logo" />
     <div class="co-name">${LOGO_TEXT}</div>
 
   </div>
@@ -251,11 +256,13 @@ table.items td:nth-child(2){text-align:left}
   w.document.close();
 }
 
-function openPrintWindow(title, fields, extraHTML) {
+function openPrintWindow(title, fields, extraHTML, logoBase64) {
   const rows = fields.map(([label, val]) => {
     const v = val || '-';
     return `<tr><td style="padding:8px 12px;font-size:11px;font-weight:600;color:#7c4dbd;width:160px;vertical-align:top;border-bottom:1px solid #f0ebe5">${label}</td><td style="padding:8px 12px;font-size:12px;color:#2d1b4e;border-bottom:1px solid #f0ebe5;white-space:pre-wrap">${v}</td></tr>`;
   }).join('');
+
+  const logoHTML = logoBase64 ? `<img src="${logoBase64}" style="height:44px;object-fit:contain" />` : `<div style="width:44px;height:44px;background:#2d1b4e;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px">ME</div>`;
 
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/><title>${title}</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
@@ -265,7 +272,7 @@ body{font-family:'Poppins',sans-serif;background:#fff;color:#2d1b4e;padding:32px
 @media print{body{padding:16px}@page{margin:12mm}}
 </style></head><body>
 <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #2d1b4e">
-  <div style="width:44px;height:44px;background:#2d1b4e;border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px">TL</div>
+  ${logoHTML}
   <div><div style="font-size:18px;font-weight:700;color:#2d1b4e">${LOGO_TEXT}</div><div style="font-size:11px;color:#9b6ddb;font-weight:500">${title}</div></div>
   <div style="margin-left:auto;font-size:10px;color:#a09890">Printed: ${new Date().toLocaleString()}</div>
 </div>

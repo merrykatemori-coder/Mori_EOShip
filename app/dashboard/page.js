@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AppShell from '@/components/AppShell';
 import DatePicker from '@/components/DatePicker';
 import { hasPermission } from '@/lib/permissions';
@@ -95,12 +96,12 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3.5">
           {quickItems.map(item => (
             hasPermission(role, item.perm) && (
-              <div key={item.label} onClick={() => goTo(item.path)} className="rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md" style={{ background: 'white', border: '1.5px solid var(--border)', boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+              <Link key={item.label} href={item.path} className="rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1 hover:shadow-md block" style={{ background: 'white', border: '1.5px solid var(--border)', boxShadow: '0 1px 4px rgba(0,0,0,0.04)', textDecoration: 'none' }}>
                 <div className="rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3" style={{ background: 'var(--beige)', width: 44, height: 44, color: 'var(--accent)' }}>
                   <span className="material-icons-outlined" style={{ fontSize: 22 }}>{item.icon}</span>
                 </div>
                 <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>{item.label}</span>
-              </div>
+              </Link>
             )
           ))}
         </div>

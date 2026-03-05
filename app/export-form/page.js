@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -131,7 +132,7 @@ export default function ExportFormPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <button onClick={goBack} className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: 'var(--border)' }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></button>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Export Form
           </h2>
           {hasPermission(role, 'export_add') && <button onClick={openSelectExport} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'var(--black)' }}>+ Add</button>}

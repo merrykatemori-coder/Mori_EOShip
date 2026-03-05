@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
 import ConfirmDialog from '@/components/ConfirmDialog';
@@ -79,9 +80,9 @@ export default function UsersPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <button onClick={goBack} className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: 'var(--border)' }}>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: 'var(--border)' }}>
               <span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span>
-            </button>
+            </Link>
             Users
           </h2>
           {hasPermission(role, 'users_add') && (
