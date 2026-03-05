@@ -37,7 +37,8 @@ export async function printExportPDF(data, boxes) {
   if (boxes && boxes.length > 0) {
     for (const b of boxes) {
       let photosHTML = '';
-      const photos = b.photos || {};
+      let photos = b.photos || {};
+      if (typeof photos === 'string') { try { photos = JSON.parse(photos); } catch(e) { photos = {}; } }
       const photoLabels = { received_package: 'Received package', items_in_box: 'Items in the box', box_and_weight: 'Box and weight', other_1: 'Other 1', other_2: 'Other 2' };
       for (const [key, label] of Object.entries(photoLabels)) {
         if (photos[key]) {
@@ -45,7 +46,9 @@ export async function printExportPDF(data, boxes) {
           if (d) photosHTML += `<div style="display:inline-block;margin:4px;text-align:center"><img src="${d}" style="max-height:100px;border-radius:6px"/><div style="font-size:9px;color:#888;margin-top:2px">${label}</div></div>`;
         }
       }
-      const rawItems = typeof b.items === 'string' ? JSON.parse(b.items || '[]') : (b.items || []);
+      let rawItems = b.items || [];
+      if (typeof rawItems === 'string') { try { rawItems = JSON.parse(rawItems); } catch(e) { rawItems = []; } }
+      if (!Array.isArray(rawItems)) rawItems = [];
       const items = rawItems.map(it => `<tr><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.item||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px;text-align:center">${it.unit||'-'}</td><td style="padding:4px 8px;border:1px solid #e0e0e0;font-size:11px">${it.type||'-'}</td></tr>`).join('');
       boxesHTML += `
         <div style="margin-top:12px;padding:12px;border:1px solid #e0d8d0;border-radius:8px;background:#faf8f5">
