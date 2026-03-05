@@ -5,6 +5,10 @@ import NavigationProgress from '@/components/NavigationProgress';
 export const metadata = {
   title: 'Mori EOShip',
   description: 'Logistics Management System',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export const viewport = {
