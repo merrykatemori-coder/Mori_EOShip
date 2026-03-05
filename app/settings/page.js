@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, useTransition } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
@@ -30,12 +30,11 @@ export default function SettingsPage() {
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [toast, setToast] = useState(null);
   const [saving, setSaving] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const [dragIdx, setDragIdx] = useState(null);
   const [overIdx, setOverIdx] = useState(null);
   const dragNode = useRef(null);
   const router = useRouter();
-  const goBack = () => { startTransition(() => { router.push('/dashboard'); }); };
+  const goBack = () => { router.push('/dashboard'); };
 
   const loadData = async () => { setLoading(true); const res = await fetch('/api/dropdown-settings'); const data = await res.json(); setAllData(Array.isArray(data) ? data : []); setLoading(false); };
   useEffect(() => { loadData(); }, []);
@@ -88,7 +87,7 @@ export default function SettingsPage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={saving || isPending} message="Processing..." />
+      <LoadingOverlay show={saving} message="Processing..." />
       {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">

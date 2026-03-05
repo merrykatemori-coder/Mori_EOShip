@@ -1,9 +1,8 @@
 'use client';
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import DatePicker from '@/components/DatePicker';
-import LoadingOverlay from '@/components/LoadingOverlay';
 import { hasPermission } from '@/lib/permissions';
 
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -17,7 +16,6 @@ export default function DashboardPage() {
   const [clients, setClients] = useState([]);
   const [role, setRole] = useState('');
   const [loading, setLoading] = useState(true);
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +43,7 @@ export default function DashboardPage() {
 
   const resetFilter = () => { setDateFrom(''); setDateTo(''); setClient(''); };
 
-  const goTo = (path) => { startTransition(() => { router.push(path); }); };
+  const goTo = (path) => { router.push(path); };
 
   const quickItems = [
     { label: 'Export', icon: 'local_shipping', path: '/export', perm: 'export_view' },
@@ -61,7 +59,6 @@ export default function DashboardPage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={isPending} message="Loading..." />
       <div className="fade-in">
         <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Dashboard</h2>
 

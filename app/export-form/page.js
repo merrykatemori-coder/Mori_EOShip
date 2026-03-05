@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useTransition } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
@@ -38,8 +38,7 @@ export default function ExportFormPage() {
   const [form, setForm] = useState({});
   const [exportSearch, setExportSearch] = useState('');
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const goBack = () => { startTransition(() => { router.push('/dashboard'); }); };
+  const goBack = () => { router.push('/dashboard'); };
   const [dropdowns, setDropdowns] = useState([]);
   useEffect(() => { fetch('/api/dropdown-settings').then(r => r.json()).then(d => setDropdowns(Array.isArray(d) ? d : [])).catch(() => {}); }, []);
   const getOpts = (cat) => dropdowns.filter(d => d.category === cat).sort((a, b) => a.sort_order - b.sort_order);
@@ -127,7 +126,7 @@ export default function ExportFormPage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={saving || isPending} message={isPending ? "Loading..." : "Processing..."} />
+      <LoadingOverlay show={saving} message="Processing..." />
       {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">

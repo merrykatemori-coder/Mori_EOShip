@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useTransition } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
@@ -26,8 +26,7 @@ export default function NotePage() {
   const [images, setImages] = useState([]);
   const [uploading, setUploading] = useState(false);
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const goBack = () => { startTransition(() => { router.push('/dashboard'); }); };
+  const goBack = () => { router.push('/dashboard'); };
   useEffect(() => {
     const stored = sessionStorage.getItem('tolun_user');
     if (stored) setRole(JSON.parse(stored).role);
@@ -92,7 +91,7 @@ export default function NotePage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={saving || isPending} message={isPending ? "Loading..." : "Saving..."} />
+      <LoadingOverlay show={saving} message="Saving..." />
       {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">

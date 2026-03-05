@@ -1,11 +1,10 @@
 'use client';
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
 import ConfirmDialog from '@/components/ConfirmDialog';
 import Toast from '@/components/Toast';
-import LoadingOverlay from '@/components/LoadingOverlay';
 import { hasPermission } from '@/lib/permissions';
 
 const ROLES = ['Software Developer','CEO Mongolia','CEO Thailand','Customer Service Officer','Origin Officer','Admin','Staff'];
@@ -21,8 +20,7 @@ export default function UsersPage() {
   const [role, setRole] = useState('');
   const [form, setForm] = useState({});
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const goBack = () => { startTransition(() => { router.push('/dashboard'); }); };
+  const goBack = () => { router.push('/dashboard'); };
   useEffect(() => {
     const stored = sessionStorage.getItem('tolun_user');
     if (stored) setRole(JSON.parse(stored).role);
@@ -78,7 +76,6 @@ export default function UsersPage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={isPending} message="Loading..." />
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">

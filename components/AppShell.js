@@ -1,13 +1,11 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
-import LoadingOverlay from '@/components/LoadingOverlay';
+import { useEffect, useState } from 'react';
 
 export default function AppShell({ children }) {
   const router = useRouter();
   const pathname = usePathname();
   const [role, setRole] = useState('');
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const stored = sessionStorage.getItem('tolun_user');
@@ -16,11 +14,7 @@ export default function AppShell({ children }) {
   }, [router]);
 
   const nav = (path) => {
-    if (path !== pathname) {
-      startTransition(() => {
-        router.push(path);
-      });
-    }
+    if (path !== pathname) router.push(path);
   };
 
   const logout = () => {
@@ -30,7 +24,6 @@ export default function AppShell({ children }) {
 
   return (
     <div>
-      <LoadingOverlay show={isPending} message="Loading..." />
       <div
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-3 sm:px-6"
         style={{ background: 'linear-gradient(135deg, #2d1b4e 0%, #4a2d7a 50%, #3b2060 100%)', height: 50, boxShadow: '0 2px 10px rgba(45,27,78,.25)' }}

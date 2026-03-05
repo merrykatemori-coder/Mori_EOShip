@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useTransition } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import AppShell from '@/components/AppShell';
 import Modal from '@/components/Modal';
@@ -52,8 +52,7 @@ export default function ExportPage() {
   const [efEditing, setEfEditing] = useState(null);
   const [lightboxUrl, setLightboxUrl] = useState(null);
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const goBack = () => { startTransition(() => { router.push('/dashboard'); }); };  useEffect(() => { const s = sessionStorage.getItem('tolun_user'); if (s) setRole(JSON.parse(s).role); }, []);
+  const goBack = () => { router.push('/dashboard'); };  useEffect(() => { const s = sessionStorage.getItem('tolun_user'); if (s) setRole(JSON.parse(s).role); }, []);
   const [dropdowns, setDropdowns] = useState([]);
   useEffect(() => { fetch('/api/dropdown-settings').then(r => r.json()).then(d => setDropdowns(Array.isArray(d) ? d : [])).catch(() => {}); }, []);
   const getOpts = (cat) => dropdowns.filter(d => d.category === cat).sort((a, b) => a.sort_order - b.sort_order);
@@ -200,7 +199,7 @@ export default function ExportPage() {
 
   return (
     <AppShell>
-      <LoadingOverlay show={saving || isPending} message={isPending ? "Loading..." : "Processing..."} />
+      <LoadingOverlay show={saving} message="Processing..." />
       {toast && <Toast message={toast.msg} type={toast.type} onClose={() => setToast(null)} />}
       {lightboxUrl && <div className="lightbox-overlay" onClick={() => setLightboxUrl(null)}><img src={lightboxUrl} alt="" /></div>}
 
