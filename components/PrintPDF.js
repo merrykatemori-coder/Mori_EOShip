@@ -21,7 +21,7 @@ function toDataURL(url) {
 }
 
 export async function printExportPDF(data, boxes) {
-  const logoBase64 = await toDataURL('/logo.png') || '';
+  const logoBase64 = await toDataURL('/logo-print.png') || '';
   const fields = [
     ['Order Code', data.order_code], ['Client', data.client],
     ['Date', data.export_date], ['MAWB No', data.mawb_no],
@@ -69,7 +69,7 @@ export async function printExportPDF(data, boxes) {
 }
 
 export async function printClientPDF(data) {
-  const logoBase64 = await toDataURL('/logo.png') || '';
+  const logoBase64 = await toDataURL('/logo-print.png') || '';
   const fields = [
     ['Client Code', data.client_code], ['Name', data.name],
     ['Nationality', data.nationality], ['Gender', data.gender],
@@ -95,7 +95,7 @@ export async function printClientPDF(data) {
 }
 
 export async function printNotePDF(data) {
-  const logoBase64 = await toDataURL('/logo.png') || '';
+  const logoBase64 = await toDataURL('/logo-print.png') || '';
   const fields = [
     ['Date', data.date], ['Topic', data.topic],
     ['Type', data.type], ['Description', data.description],
@@ -113,7 +113,7 @@ export async function printNotePDF(data) {
 }
 
 export async function printInvoicePDF(ef) {
-  const logoBase64 = await toDataURL('/logo.png') || '';
+  const logoBase64 = await toDataURL('/logo-print.png') || '';
   const today = new Date();
   const dateStr = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
   const priceLine = (parseFloat(ef.price_per_kg)||0) * (parseFloat(ef.weight_result)||0);
