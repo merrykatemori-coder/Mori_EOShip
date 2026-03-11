@@ -55,7 +55,7 @@ export default function DashboardPage() {
     { label: 'Settings', icon: 'tune', path: '/settings', perm: 'settings_view' },
   ];
 
-  const cardStyle = { padding: 24, borderRadius: 16, borderLeft: '4px solid', background: 'var(--card-bg)', border: '1px solid var(--glass-border)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 20px rgba(0,0,0,0.2)' };
+  const cardStyle = { padding: 24, borderRadius: 16, borderLeft: '4px solid', background: 'var(--card-bg)', border: '1px solid var(--glass-border)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 20px rgba(124,58,237,0.06)' };
   const miniSpinner = <div className="flex items-center gap-2"><div className="spinner" style={{ width: 22, height: 22, borderWidth: 2 }} /></div>;
 
   return (
@@ -82,11 +82,11 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, rgba(108,92,231,0.85), rgba(0,212,255,0.7))', color: 'white', boxShadow: '0 4px 30px rgba(108,92,231,0.35)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #7c3aed, #0ea5e9)', color: 'white', boxShadow: '0 4px 24px rgba(124,58,237,0.25)', border: '1px solid rgba(255,255,255,0.15)' }}>
             <div className="text-sm font-semibold mb-2" style={{ opacity: 0.85 }}>Total Sales (THB)</div>
             {loading ? miniSpinner : <div className="text-3xl font-bold">฿ {fmt(totalTHB)}</div>}
           </div>
-          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, rgba(168,85,247,0.85), rgba(108,92,231,0.7))', color: 'white', boxShadow: '0 4px 30px rgba(168,85,247,0.35)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #a855f7, #ec4899)', color: 'white', boxShadow: '0 4px 24px rgba(168,85,247,0.25)', border: '1px solid rgba(255,255,255,0.15)' }}>
             <div className="text-sm font-semibold mb-2" style={{ opacity: 0.85 }}>Total Sales (MNT)</div>
             {loading ? miniSpinner : <div className="text-3xl font-bold">₮ {fmt(totalMNT)}</div>}
           </div>
@@ -96,8 +96,8 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3.5">
           {quickItems.map(item => (
             hasPermission(role, item.perm) && (
-              <Link key={item.label} href={item.path} className="neon-module-card rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1.5 block" style={{ background: 'linear-gradient(145deg, #4a3aad 0%, #3b5ee8 50%, #1a8dd4 100%)', border: '1.5px solid rgba(120,160,255,0.35)', boxShadow: '0 4px 24px rgba(60,80,220,0.3), inset 0 1px 0 rgba(255,255,255,0.1)', textDecoration: 'none' }}>
-                <div className="flex items-center justify-center mx-auto mb-2 sm:mb-3" style={{ width: 48, height: 48, color: 'white', filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.6))' }}>
+              <Link key={item.label} href={item.path} className="neon-module-card rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1.5 block" style={{ background: 'linear-gradient(145deg, #7c3aed 0%, #6366f1 50%, #0ea5e9 100%)', border: '1.5px solid rgba(168,85,247,0.3)', boxShadow: '0 4px 24px rgba(124,58,237,0.2), inset 0 1px 0 rgba(255,255,255,0.15)', textDecoration: 'none' }}>
+                <div className="flex items-center justify-center mx-auto mb-2 sm:mb-3" style={{ width: 48, height: 48, color: 'white', filter: 'drop-shadow(0 0 8px rgba(168,85,247,0.5))' }}>
                   <span className="material-icons-outlined" style={{ fontSize: 28 }}>{item.icon}</span>
                 </div>
                 <span className="text-sm font-bold" style={{ color: 'white', textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>{item.label}</span>

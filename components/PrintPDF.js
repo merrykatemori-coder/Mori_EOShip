@@ -40,6 +40,7 @@ table.dt{width:100%;border-collapse:collapse;margin:12px 0;font-size:10px}
 table.dt th{border:1px solid #555;padding:6px 8px;font-weight:700;text-align:center;background:#e8edf5}
 table.dt th.purple{background:#7c3aed;color:white}
 table.dt th.blue{background:#4361ee;color:white}
+table.dt th.green{background:#10b981;color:white}
 table.dt td{border:1px solid #ccc;padding:5px 8px;text-align:center;font-size:10px}
 table.dt td:nth-child(2){text-align:left}
 .weight-section{margin:16px 0}
@@ -187,11 +188,36 @@ export async function printNotePDF(data) {
   openPrint(html);
 }
 
-export async function printInvoicePDF(ef) {
+export async function printInvoicePDF(ef, boxes) {
   const logoBase64 = await toDataURL('/logo-print.png') || '';
   const priceLine = (parseFloat(ef.price_per_kg)||0) * (parseFloat(ef.weight_result)||0);
   const diffLine = (parseFloat(ef.price_per_diff)||0) * (parseFloat(ef.weight_diff)||0);
   const total = priceLine + diffLine;
+
+  let parsedBoxes = [];
+  if (boxes && boxes.length > 0) {
+    for (const b of boxes) {
+      let items = b.items || [];
+      if (typeof items === 'string') { try { items = JSON.parse(items); } catch(e) { items = []; } }
+      if (!Array.isArray(items)) items = [items];
+      parsedBoxes.push({ ...b, items });
+    }
+  }
+
+  const boxRows = parsedBoxes.map((b, i) => {
+    const itemNames = b.items.map(it => it.item || '-').join(', ');
+    return `<tr><td>${b.box_code || (i+1)}</td><td>${i+1}</td><td style="text-align:left">${itemNames || '-'}</td><td>${b.box_l||'-'}</td><td>${b.box_w||'-'}</td><td>${b.box_h||'-'}</td><td>${b.dimension||'-'}</td><td>${b.gross_weight||'-'}</td><td>${b.weight_result||'-'}</td><td>Kg.</td></tr>`;
+  }).join('');
+
+  const shipmentTable = parsedBoxes.length > 0 ? `
+    <table class="dt" style="margin-top:20px">
+      <thead>
+        <tr><th class="purple" colspan="3">Shipment Details</th><th class="purple" colspan="3">Dimension (cm.)</th><th class="green" colspan="4">Weight Details (Kg.)</th></tr>
+        <tr><th class="purple">Carton No.</th><th class="purple">No.</th><th class="purple">Items</th><th class="purple">L</th><th class="purple">W</th><th class="purple">H</th><th class="green">Dim.</th><th class="green">GW.</th><th class="green" colspan="2">Summary</th></tr>
+      </thead>
+      <tbody>${boxRows}</tbody>
+    </table>
+  ` : '';
 
   const html = buildDoc({
     logoBase64,
@@ -215,6 +241,7 @@ export async function printInvoicePDF(ef) {
         <div class="total-row"><span class="tl">TOTAL CHARGE</span><span class="tv">${fmtN(ef.total_thb || total)}</span><span style="width:40px">THB</span></div>
         ${parseFloat(ef.total_mnt) > 0 ? `<div style="display:flex;justify-content:flex-end;font-size:12px;font-weight:600;padding-top:4px"><span style="padding-right:16px">TOTAL MNT</span><span style="min-width:120px;text-align:right;padding-right:8px">${fmtN(ef.total_mnt)}</span><span style="width:40px">MNT</span></div>` : ''}
       </div>
+      ${shipmentTable}
       ${ef.remark ? `<div style="margin-top:8px;font-size:10px"><b>Remark:</b> ${ef.remark}</div>` : ''}
     `,
     showPayment: true,

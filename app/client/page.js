@@ -93,7 +93,7 @@ export default function ClientPage() {
         : clients.length === 0 ? <div className="text-center py-16" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-3" style={{ fontSize: 48, color: 'var(--grey)' }}>people_outline</span><p className="text-sm">No client records</p></div>
         : <div className="overflow-x-auto rounded-xl shadow-sm">
             <table className="w-full border-collapse bg-transparent rounded-xl overflow-hidden">
-              <thead><tr style={{ background: 'rgba(108,92,231,0.08)' }}>{['Code','Name','Route','Nationality','Gender','Channel','Supporter'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>)}</tr></thead>
+              <thead><tr style={{ background: 'rgba(124,58,237,0.04)' }}>{['Code','Name','Route','Nationality','Gender','Channel','Supporter'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>)}</tr></thead>
               <tbody>{clients.map(row => <tr key={row.id} onClick={() => { setCurrent(row); setDetailOpen(true); }} className="cursor-pointer transition-all hover:bg-cream" style={{ borderBottom: '1px solid var(--border)' }}>
                 <td className="px-4 py-3.5 text-sm font-semibold" style={{ color: 'var(--accent)' }}>{row.client_code}</td>
                 <td className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{row.name}</td>
@@ -118,7 +118,7 @@ export default function ClientPage() {
             {[['Client Code',current.client_code,true],['Name',current.name],['Origin-Destination',current.origin_destination],['Nationality',current.nationality],['Gender',current.gender],['Contact Channel',current.contact_channel],['Supporter',current.supporter]].map(([l,v,c]) => <div key={l}><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>{l}</div><div className="text-sm font-medium" style={{ color: c ? 'var(--accent)' : 'var(--text-primary)' }}>{v||'-'}</div></div>)}
           </div>
           {current.remark && <div className="mt-3"><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Remark</div><div className="text-sm">{current.remark}</div></div>}
-          {[current.id_card_image,current.profile_image,current.sender_image,current.recipient_image].some(Boolean) && <div className="mt-4 pt-3 border-t" style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: 'var(--accent)' }}>
+          {[current.id_card_image,current.profile_image,current.sender_image,current.recipient_image].some(Boolean) && <div className="mt-4 pt-3 border-t" style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.12)', color: 'var(--accent)' }}>
             {[['ID Card',current.id_card_image],['Profile',current.profile_image],['Sender',current.sender_image],['Recipient',current.recipient_image]].map(([l,url]) => url && <div key={l} className="mb-2"><span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{l}</span><br/><img src={url} className="max-w-full max-h-36 rounded-lg mt-1" alt="" /></div>)}
           </div>}
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -131,7 +131,7 @@ export default function ClientPage() {
         <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={handleSave} disabled={uploading} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: uploading ? 'var(--grey)' : 'var(--latte)' }}>{uploading ? 'Uploading...' : 'Save'}</button>
       </>}>
-        {editing && <F label="Client Code"><input value={editing.client_code} readOnly className={inputCls} style={{ ...inputStyle, background: 'rgba(108,92,231,0.08)', color: 'var(--text-muted)' }} /></F>}
+        {editing && <F label="Client Code"><input value={editing.client_code} readOnly className={inputCls} style={{ ...inputStyle, background: 'rgba(124,58,237,0.04)', color: 'var(--text-muted)' }} /></F>}
         <F label="Name" req><input value={form.name||''} onChange={(e) => setForm({...form, name: e.target.value})} className={inputCls} style={inputStyle} /></F>
         <F label="Origin-Destination" req><select value={form.origin_destination||''} onChange={(e) => setForm({...form, origin_destination: e.target.value})} className={inputCls} style={inputStyle}><option value="">Select...</option>{getOpts('origin_destination').map(o => <option key={o.id} value={o.value}>{o.label}</option>)}</select></F>
         <F label="Nationality"><select value={form.nationality||''} onChange={(e) => setForm({...form, nationality: e.target.value})} className={inputCls} style={inputStyle}><option value="">Select...</option>{getOpts('nationality').map(o => <option key={o.id} value={o.value}>{o.label}</option>)}</select></F>

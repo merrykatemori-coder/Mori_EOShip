@@ -80,7 +80,7 @@ export default function UsersPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', color: 'var(--accent)' }}>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.12)', color: 'var(--accent)' }}>
               <span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span>
             </Link>
             Users
@@ -99,7 +99,7 @@ export default function UsersPage() {
           <div className="overflow-x-auto rounded-xl shadow-sm">
             <table className="w-full border-collapse bg-transparent rounded-xl overflow-hidden">
               <thead>
-                <tr style={{ background: 'rgba(108,92,231,0.08)' }}>
+                <tr style={{ background: 'rgba(124,58,237,0.04)' }}>
                   {['ID','User_ID','Username','Role','Status','Actions'].map(h => (
                     <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>
                   ))}
@@ -141,7 +141,7 @@ export default function UsersPage() {
         {editing && (
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-1.5">User ID</label>
-            <input value={editing.user_id} readOnly className={ic} style={{ ...is, background: 'rgba(108,92,231,0.08)', color: 'var(--text-muted)' }} />
+            <input value={editing.user_id} readOnly className={ic} style={{ ...is, background: 'rgba(124,58,237,0.04)', color: 'var(--text-muted)' }} />
           </div>
         )}
         <div className="mb-4">

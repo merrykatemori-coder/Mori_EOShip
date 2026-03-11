@@ -18,7 +18,7 @@ function F({ label, children }) {
 
 const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
 const inputStyle = { border: '1px solid var(--glass-border)' };
-const roStyle = { ...inputStyle, background: 'rgba(108,92,231,0.08)', color: 'var(--text-muted)' };
+const roStyle = { ...inputStyle, background: 'rgba(124,58,237,0.04)', color: 'var(--text-muted)' };
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtD = (d) => { if (!d) return '-'; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; };
 
@@ -123,6 +123,16 @@ export default function ExportFormPage() {
     setConfirmOpen(false); setDetailOpen(false); loadData();
   };
 
+  const handlePrintInvoice = async (ef) => {
+    let boxes = [];
+    if (ef.export_id) {
+      const res = await fetch(`/api/boxes?export_id=${ef.export_id}`);
+      const data = await res.json();
+      boxes = Array.isArray(data) ? data : [];
+    }
+    printInvoicePDF(ef, boxes);
+  };
+
   const filteredExports = exports.filter(e => (e.order_code || '').toLowerCase().includes(exportSearch.toLowerCase()) || (e.client || '').toLowerCase().includes(exportSearch.toLowerCase()));
 
   return (
@@ -135,7 +145,7 @@ export default function ExportFormPage() {
             <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Export Form
           </h2>
-          {hasPermission(role, 'export_add') && <button onClick={openSelectExport} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg, #6c5ce7, #00d4ff)', boxShadow: '0 4px 16px rgba(108,92,231,0.3)' }}>+ Add</button>}
+          {hasPermission(role, 'export_add') && <button onClick={openSelectExport} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg, #7c3aed, #0ea5e9)', boxShadow: '0 4px 16px rgba(124,58,237,0.25)' }}>+ Add</button>}
         </div>
         <div className="relative mb-5">
           <span className="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)', fontSize: 20 }}>search</span>
@@ -151,7 +161,7 @@ export default function ExportFormPage() {
             <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)' }}>
               <thead><tr>
                 {['Date','Order Code','Client','Boxes','WR','Total THB','Total MNT','Type','Invoice'].map(h => (
-                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(108,92,231,0.08)' }}>{h}</th>
+                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(124,58,237,0.04)' }}>{h}</th>
                 ))}
               </tr></thead>
               <tbody>
@@ -166,7 +176,7 @@ export default function ExportFormPage() {
                     <td onClick={() => { setCurrent(r); setDetailOpen(true); }} className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{r.total_mnt ? fmt(r.total_mnt) : '-'}</td>
                     <td onClick={() => { setCurrent(r); setDetailOpen(true); }} className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{r.type_box || '-'}</td>
                     <td className="px-4 py-3.5">
-                      <button onClick={(e) => { e.stopPropagation(); printInvoicePDF(r); }} className="btn-invoice-hover px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1" style={{ background: 'var(--info)', color: 'white' }}>
+                      <button onClick={(e) => { e.stopPropagation(); handlePrintInvoice(r); }} className="btn-invoice-hover px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1" style={{ background: 'var(--info)', color: 'white' }}>
                         <span className="material-icons-outlined" style={{ fontSize: 14 }}>receipt</span>Invoice
                       </button>
                     </td>
@@ -186,7 +196,7 @@ export default function ExportFormPage() {
         <div style={{ maxHeight: 350, overflowY: 'auto' }}>
           {filteredExports.length === 0 ? <div className="text-center py-8 text-sm" style={{ color: 'var(--text-muted)' }}>No exports found</div> :
             filteredExports.map(exp => (
-              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(108,92,231,0.08)', border: '1px solid var(--border)' }}>
+              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(124,58,237,0.04)', border: '1px solid var(--border)' }}>
                 <div className="flex justify-between items-center"><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{exp.order_code}</span><span className="text-xs" style={{ color: 'var(--text-muted)' }}>{fmtD(exp.export_date)}</span></div>
                 <div className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{exp.client} — {exp.total_boxs || 0} boxes</div>
               </div>
@@ -197,7 +207,7 @@ export default function ExportFormPage() {
 
       <Modal isOpen={detailOpen} onClose={() => setDetailOpen(false)} title="Export Form Detail" footer={
         hasPermission(role, 'export_add') && current && <>
-          <button onClick={() => printInvoicePDF(current)} className="btn-invoice-hover px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ background: 'var(--info)', color: 'white' }}>
+          <button onClick={() => handlePrintInvoice(current)} className="btn-invoice-hover px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ background: 'var(--info)', color: 'white' }}>
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>receipt</span>Invoice
           </button>
           <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Edit</button>

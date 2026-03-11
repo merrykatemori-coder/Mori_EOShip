@@ -107,7 +107,7 @@ export default function SettingsPage() {
         </div>
 
         <div className="rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid var(--glass-border)' }}>
-          <div className="flex items-center justify-between px-4 py-3" style={{ background: 'rgba(108,92,231,0.08)', borderBottom: '1.5px solid var(--border)' }}>
+          <div className="flex items-center justify-between px-4 py-3" style={{ background: 'rgba(124,58,237,0.04)', borderBottom: '1.5px solid var(--border)' }}>
             <div>
               <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{activeCat?.label}</span>
               <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>({activeCat?.module})</span>
