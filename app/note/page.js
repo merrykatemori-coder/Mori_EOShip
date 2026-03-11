@@ -88,7 +88,7 @@ export default function NotePage() {
   };
 
   const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-  const inputStyle = { border: '1.5px solid var(--border)' };
+  const inputStyle = { border: '1px solid var(--glass-border)' };
 
   return (
     <AppShell>
@@ -97,7 +97,7 @@ export default function NotePage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Note
           </h2>
           {hasPermission(role, 'note_add') && <button onClick={openAdd} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--black)' }}>+ Add Note</button>}
@@ -113,7 +113,7 @@ export default function NotePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {notes.map(note => (
-              <div key={note.id} onClick={() => { setCurrent(note); setDetailOpen(true); }} className="bg-white rounded-xl p-4 cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5" style={{ border: '1px solid var(--border)' }}>
+              <div key={note.id} onClick={() => { setCurrent(note); setDetailOpen(true); }} className="bg-transparent rounded-xl p-4 cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5" style={{ border: '1px solid var(--border)' }}>
                 <div className="text-[11px] font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>{fmtDate(note.date)}</div>
                 <div className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{truncate(note.topic, 25)}</div>
                 <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{truncate(note.description, 20)}</div>
@@ -126,7 +126,7 @@ export default function NotePage() {
       <Modal isOpen={detailOpen} onClose={() => setDetailOpen(false)} title="Note Detail" footer={
         hasPermission(role, 'note_add') && current && <>
           <button onClick={() => printNotePDF(current)} className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ border: '1.5px solid var(--info)', color: 'var(--info)' }}><span className="material-icons-outlined" style={{ fontSize: 16 }}>print</span>Print</button>
-          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Edit</button>
+          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Edit</button>
           <button onClick={() => setConfirmOpen(true)} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--danger)' }}>Delete</button>
         </>
       }>
@@ -135,12 +135,12 @@ export default function NotePage() {
           <div className="mb-3"><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Topic</div><div className="text-sm font-medium">{current.topic}</div></div>
           <div className="mb-3"><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Type</div><div className="text-sm font-medium">{current.type}</div></div>
           <div className="mb-3"><div className="text-[11px] uppercase tracking-wide mb-1" style={{ color: 'var(--text-muted)' }}>Description</div><div className="text-sm whitespace-pre-wrap leading-relaxed">{current.description || '-'}</div></div>
-          {current.images && current.images.length > 0 && (<div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--border)' }}><div className="text-[11px] uppercase tracking-wide mb-2" style={{ color: 'var(--text-muted)' }}>Images</div><div className="flex flex-wrap gap-2">{current.images.map((url, i) => (<div key={i} className="w-24 h-24 rounded-lg overflow-hidden"><img src={url} className="w-full h-full object-cover" alt="" /></div>))}</div></div>)}
+          {current.images && current.images.length > 0 && (<div className="mt-4 pt-3 border-t" style={{ background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', color: 'var(--accent)' }}><div className="text-[11px] uppercase tracking-wide mb-2" style={{ color: 'var(--text-muted)' }}>Images</div><div className="flex flex-wrap gap-2">{current.images.map((url, i) => (<div key={i} className="w-24 h-24 rounded-lg overflow-hidden"><img src={url} className="w-full h-full object-cover" alt="" /></div>))}</div></div>)}
         </>)}
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Note' : 'Add Note'} footer={<>
-        <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+        <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={handleSave} disabled={uploading} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: uploading ? 'var(--grey)' : 'var(--black)' }}>{uploading ? 'Uploading...' : 'Save'}</button>
       </>}>
         <div className="mb-4"><label className="block text-sm font-semibold mb-1.5">Date *</label><DatePicker value={form.date} onChange={(v) => setForm({...form, date: v})} /></div>
@@ -156,7 +156,7 @@ export default function NotePage() {
         </div>
         <div className="mb-4"><label className="block text-sm font-semibold mb-1.5">Description</label><textarea value={form.description} onChange={(e) => setForm({...form, description: e.target.value})} rows={5} className={inputCls} style={{ ...inputStyle, minHeight: 120, resize: 'vertical' }} /></div>
         <div className="mb-4"><label className="block text-sm font-semibold mb-1.5">Images</label>
-          <div onClick={() => document.getElementById('note-img-input').click()} className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer" style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>add_photo_alternate</span><span className="text-sm">+ Add Image</span></div>
+          <div onClick={() => document.getElementById('note-img-input').click()} className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer" style={{ borderColor: 'var(--glass-border)', color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>add_photo_alternate</span><span className="text-sm">+ Add Image</span></div>
           <input id="note-img-input" type="file" accept="image/*" multiple className="hidden" onChange={addImages} />
           {images.length > 0 && <div className="flex flex-wrap gap-2 mt-2">{images.map((url, idx) => (<div key={idx} className="relative w-20 h-20 rounded-lg overflow-hidden"><img src={url} className="w-full h-full object-cover" alt="" /><button onClick={() => setImages(prev => prev.filter((_,i) => i !== idx))} className="absolute top-0.5 right-0.5 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center" style={{ background: 'var(--danger)' }}>×</button></div>))}</div>}
           {uploading && <p className="text-sm mt-2" style={{ color: 'var(--latte)' }}>Uploading...</p>}

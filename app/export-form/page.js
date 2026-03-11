@@ -17,8 +17,8 @@ function F({ label, children }) {
 }
 
 const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-const inputStyle = { border: '1.5px solid var(--border)' };
-const roStyle = { ...inputStyle, background: 'var(--cream)', color: 'var(--text-muted)' };
+const inputStyle = { border: '1px solid var(--glass-border)' };
+const roStyle = { ...inputStyle, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' };
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtD = (d) => { if (!d) return '-'; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; };
 
@@ -132,7 +132,7 @@ export default function ExportFormPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Export Form
           </h2>
           {hasPermission(role, 'export_add') && <button onClick={openSelectExport} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'var(--black)' }}>+ Add</button>}
@@ -148,10 +148,10 @@ export default function ExportFormPage() {
           <div className="text-center py-16" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-3" style={{ fontSize: 48, color: 'var(--grey)' }}>receipt_long</span><p>No export forms found</p></div>
         ) : (
           <div className="overflow-x-auto rounded-xl" style={{ boxShadow: '0 1px 3px rgba(0,0,0,.04)' }}>
-            <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'white' }}>
+            <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)' }}>
               <thead><tr>
                 {['Date','Order Code','Client','Boxes','WR','Total THB','Total MNT','Type','Invoice'].map(h => (
-                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'var(--cream)' }}>{h}</th>
+                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(79,110,247,0.06)' }}>{h}</th>
                 ))}
               </tr></thead>
               <tbody>
@@ -186,7 +186,7 @@ export default function ExportFormPage() {
         <div style={{ maxHeight: 350, overflowY: 'auto' }}>
           {filteredExports.length === 0 ? <div className="text-center py-8 text-sm" style={{ color: 'var(--text-muted)' }}>No exports found</div> :
             filteredExports.map(exp => (
-              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'var(--cream)', border: '1px solid var(--border)' }}>
+              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
                 <div className="flex justify-between items-center"><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{exp.order_code}</span><span className="text-xs" style={{ color: 'var(--text-muted)' }}>{fmtD(exp.export_date)}</span></div>
                 <div className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{exp.client} — {exp.total_boxs || 0} boxes</div>
               </div>
@@ -200,7 +200,7 @@ export default function ExportFormPage() {
           <button onClick={() => printInvoicePDF(current)} className="btn-invoice-hover px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ background: 'var(--info)', color: 'white' }}>
             <span className="material-icons-outlined" style={{ fontSize: 16 }}>receipt</span>Invoice
           </button>
-          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Edit</button>
+          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Edit</button>
           <button onClick={() => setConfirmOpen(true)} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--danger)' }}>Delete</button>
         </>
       }>
@@ -218,7 +218,7 @@ export default function ExportFormPage() {
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Export Form' : 'New Export Form'} footer={<>
-        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={handleSave} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save</button>
       </>}>
         <div className="text-xs font-bold uppercase tracking-wider mb-3 pb-2" style={{ color: 'var(--danger)', borderBottom: '1px solid var(--border)' }}>From Export (Read-only)</div>

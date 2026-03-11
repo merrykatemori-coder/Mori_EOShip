@@ -64,25 +64,25 @@ export default function ClientPage() {
 
   const handleDelete = async () => { await fetch(`/api/clients?id=${current.id}`, { method: 'DELETE' }); setToast({ msg: 'Client deleted', type: 'success' }); setConfirmOpen(false); setDetailOpen(false); loadData(); };
 
-  const SectionTitle = ({ children }) => (<div className="text-sm font-bold mt-5 mb-3 pt-4 border-t" style={{ color: 'var(--accent)', borderColor: 'var(--border)' }}>{children}</div>);
+  const SectionTitle = ({ children }) => (<div className="text-sm font-bold mt-5 mb-3 pt-4 border-t" style={{ color: 'var(--accent)', borderColor: 'var(--glass-border)' }}>{children}</div>);
 
   const ImageUpload = ({ field, label }) => (
     <F label={label}>
       {form[field] ? (<div className="relative inline-block"><img src={form[field]} className="max-w-full max-h-28 rounded-lg" alt="" /><button onClick={() => setForm(prev => ({...prev, [field]: ''}))} className="absolute top-1 right-1 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center" style={{ background: 'var(--danger)' }}>×</button></div>)
-      : (<div onClick={() => document.getElementById(`file-${field}`).click()} className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all" style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>add_photo_alternate</span><span className="text-sm">Click to select</span></div>)}
+      : (<div onClick={() => document.getElementById(`file-${field}`).click()} className="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-all" style={{ borderColor: 'var(--glass-border)', color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>add_photo_alternate</span><span className="text-sm">Click to select</span></div>)}
       <input id={`file-${field}`} type="file" accept="image/*" className="hidden" onChange={(e) => handleImageChange(e, field)} />
     </F>
   );
 
   const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-  const inputStyle = { border: '1.5px solid var(--border)' };
+  const inputStyle = { border: '1px solid var(--glass-border)' };
 
   return (
     <AppShell>
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Client
           </h2>
           {hasPermission(role, 'client_add') && <button onClick={openAdd} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>+ Add Client</button>}
@@ -92,8 +92,8 @@ export default function ClientPage() {
         {loading ? <div className="flex flex-col items-center py-16" style={{ color: 'var(--text-muted)' }}><div className="spinner" /><div className="mt-3 text-sm">Loading...</div></div>
         : clients.length === 0 ? <div className="text-center py-16" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-3" style={{ fontSize: 48, color: 'var(--grey)' }}>people_outline</span><p className="text-sm">No client records</p></div>
         : <div className="overflow-x-auto rounded-xl shadow-sm">
-            <table className="w-full border-collapse bg-white rounded-xl overflow-hidden">
-              <thead><tr style={{ background: 'var(--cream)' }}>{['Code','Name','Route','Nationality','Gender','Channel','Supporter'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>)}</tr></thead>
+            <table className="w-full border-collapse bg-transparent rounded-xl overflow-hidden">
+              <thead><tr style={{ background: 'rgba(79,110,247,0.06)' }}>{['Code','Name','Route','Nationality','Gender','Channel','Supporter'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>)}</tr></thead>
               <tbody>{clients.map(row => <tr key={row.id} onClick={() => { setCurrent(row); setDetailOpen(true); }} className="cursor-pointer transition-all hover:bg-cream" style={{ borderBottom: '1px solid var(--border)' }}>
                 <td className="px-4 py-3.5 text-sm font-semibold" style={{ color: 'var(--accent)' }}>{row.client_code}</td>
                 <td className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{row.name}</td>
@@ -110,7 +110,7 @@ export default function ClientPage() {
       <Modal isOpen={detailOpen} onClose={() => setDetailOpen(false)} title="Client Detail" footer={
         hasPermission(role, 'client_add') && current && <>
           <button onClick={() => printClientPDF(current)} className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ border: '1.5px solid var(--info)', color: 'var(--info)' }}><span className="material-icons-outlined" style={{ fontSize: 16 }}>print</span>Print</button>
-          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Edit</button>
+          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Edit</button>
           <button onClick={() => setConfirmOpen(true)} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--danger)' }}>Delete</button>
         </>}>
         {current && <>
@@ -118,7 +118,7 @@ export default function ClientPage() {
             {[['Client Code',current.client_code,true],['Name',current.name],['Origin-Destination',current.origin_destination],['Nationality',current.nationality],['Gender',current.gender],['Contact Channel',current.contact_channel],['Supporter',current.supporter]].map(([l,v,c]) => <div key={l}><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>{l}</div><div className="text-sm font-medium" style={{ color: c ? 'var(--accent)' : 'var(--text-primary)' }}>{v||'-'}</div></div>)}
           </div>
           {current.remark && <div className="mt-3"><div className="text-[11px] uppercase tracking-wide mb-0.5" style={{ color: 'var(--text-muted)' }}>Remark</div><div className="text-sm">{current.remark}</div></div>}
-          {[current.id_card_image,current.profile_image,current.sender_image,current.recipient_image].some(Boolean) && <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--border)' }}>
+          {[current.id_card_image,current.profile_image,current.sender_image,current.recipient_image].some(Boolean) && <div className="mt-4 pt-3 border-t" style={{ background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', color: 'var(--accent)' }}>
             {[['ID Card',current.id_card_image],['Profile',current.profile_image],['Sender',current.sender_image],['Recipient',current.recipient_image]].map(([l,url]) => url && <div key={l} className="mb-2"><span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{l}</span><br/><img src={url} className="max-w-full max-h-36 rounded-lg mt-1" alt="" /></div>)}
           </div>}
           <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -128,10 +128,10 @@ export default function ClientPage() {
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Client' : 'Add Client'} footer={<>
-        <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+        <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={handleSave} disabled={uploading} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: uploading ? 'var(--grey)' : 'var(--latte)' }}>{uploading ? 'Uploading...' : 'Save'}</button>
       </>}>
-        {editing && <F label="Client Code"><input value={editing.client_code} readOnly className={inputCls} style={{ ...inputStyle, background: 'var(--cream)', color: 'var(--text-muted)' }} /></F>}
+        {editing && <F label="Client Code"><input value={editing.client_code} readOnly className={inputCls} style={{ ...inputStyle, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' }} /></F>}
         <F label="Name" req><input value={form.name||''} onChange={(e) => setForm({...form, name: e.target.value})} className={inputCls} style={inputStyle} /></F>
         <F label="Origin-Destination" req><select value={form.origin_destination||''} onChange={(e) => setForm({...form, origin_destination: e.target.value})} className={inputCls} style={inputStyle}><option value="">Select...</option>{getOpts('origin_destination').map(o => <option key={o.id} value={o.value}>{o.label}</option>)}</select></F>
         <F label="Nationality"><select value={form.nationality||''} onChange={(e) => setForm({...form, nationality: e.target.value})} className={inputCls} style={inputStyle}><option value="">Select...</option>{getOpts('nationality').map(o => <option key={o.id} value={o.value}>{o.label}</option>)}</select></F>

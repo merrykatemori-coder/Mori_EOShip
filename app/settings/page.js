@@ -84,7 +84,7 @@ export default function SettingsPage() {
   };
 
   const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-  const inputStyle = { border: '1.5px solid var(--border)' };
+  const inputStyle = { border: '1px solid var(--glass-border)' };
 
   return (
     <AppShell>
@@ -93,7 +93,7 @@ export default function SettingsPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Dropdown Settings
           </h2>
         </div>
@@ -106,8 +106,8 @@ export default function SettingsPage() {
           ))}
         </div>
 
-        <div className="rounded-xl overflow-hidden" style={{ background: 'white', border: '1.5px solid var(--border)' }}>
-          <div className="flex items-center justify-between px-4 py-3" style={{ background: 'var(--cream)', borderBottom: '1.5px solid var(--border)' }}>
+        <div className="rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)', border: '1px solid var(--glass-border)' }}>
+          <div className="flex items-center justify-between px-4 py-3" style={{ background: 'rgba(79,110,247,0.06)', borderBottom: '1.5px solid var(--border)' }}>
             <div>
               <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{activeCat?.label}</span>
               <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>({activeCat?.module})</span>
@@ -147,7 +147,7 @@ export default function SettingsPage() {
       </div>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editItem ? 'Edit Item' : 'Add Item'} footer={<>
-        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={handleSave} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save</button>
       </>}>
         <div className="mb-4"><label className="block text-sm font-semibold mb-1.5">Label *</label><input value={form.label} onChange={(e) => setForm({ ...form, label: e.target.value })} className={inputCls} style={inputStyle} /></div>

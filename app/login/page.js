@@ -34,10 +34,10 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen" style={{ background: 'var(--bg)' }}>
-      <form onSubmit={handleLogin} className="bg-white rounded-2xl p-8 sm:p-12 w-full max-w-md mx-3 sm:mx-0 shadow-lg text-center">
+    <div className="flex items-center justify-center min-h-screen" style={{ background: 'var(--bg)', backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% 50%, rgba(79,110,247,0.1) 0%, transparent 70%)' }}>
+      <form onSubmit={handleLogin} className="rounded-2xl p-8 sm:p-12 w-full max-w-md mx-3 sm:mx-0 shadow-lg text-center" style={{ background: 'rgba(15,26,48,0.8)', border: '1px solid rgba(79,110,247,0.15)', backdropFilter: 'blur(20px)', boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(79,110,247,0.05)' }}>
         <img src="/logo.png" alt="Logo" style={{ width: 60, marginBottom: 12, marginLeft: 'auto', marginRight: 'auto', display: 'block' }} />
-        <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--black)' }}>Mori EOShip</h1>
+        <h1 className="text-3xl font-bold mb-2" style={{ color: '#e8ecf4' }}>Mori EOShip</h1>
         <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>Sign in to your account</p>
 
         <div className="text-left mb-4">
@@ -47,7 +47,7 @@ export default function LoginPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full px-4 py-3 rounded-lg text-sm transition-all outline-none"
-            style={{ border: '1.5px solid var(--border)', background: 'var(--white)' }}
+            style={{ border: '1.5px solid rgba(100,140,255,0.15)', background: 'rgba(15,23,42,0.9)' }}
             onFocus={(e) => e.target.style.borderColor = 'var(--latte)'}
             onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
             placeholder="Enter username"
@@ -61,7 +61,7 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-lg text-sm transition-all outline-none"
-            style={{ border: '1.5px solid var(--border)', background: 'var(--white)' }}
+            style={{ border: '1.5px solid rgba(100,140,255,0.15)', background: 'rgba(15,23,42,0.9)' }}
             onFocus={(e) => e.target.style.borderColor = 'var(--latte)'}
             onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
             placeholder="Enter password"
@@ -74,7 +74,7 @@ export default function LoginPage() {
           type="submit"
           disabled={loading}
           className="w-full py-3 rounded-lg text-white font-semibold text-sm transition-all"
-          style={{ background: loading ? 'var(--grey)' : 'var(--black)' }}
+          style={{ background: loading ? 'var(--grey)' : 'linear-gradient(135deg, #4f6ef7, #00d4ff)', boxShadow: loading ? 'none' : '0 4px 20px rgba(79,110,247,0.3)' }}
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>

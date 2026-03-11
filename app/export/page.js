@@ -20,8 +20,8 @@ function F({ label, children }) {
 }
 
 const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-const inputStyle = { border: '1.5px solid var(--border)' };
-const roStyle = { ...inputStyle, background: 'var(--cream)', color: 'var(--text-muted)' };
+const inputStyle = { border: '1px solid var(--glass-border)' };
+const roStyle = { ...inputStyle, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' };
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtD = (d) => { if (!d) return '-'; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; };
 
@@ -212,7 +212,7 @@ export default function ExportPage() {
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Export
           </h2>
           {hasPermission(role, 'export_add') && <button onClick={openAdd} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'var(--black)' }}>+ Add Export</button>}
@@ -222,8 +222,8 @@ export default function ExportPage() {
         {loading ? <div className="flex flex-col items-center py-16 gap-3" style={{ color: 'var(--text-muted)' }}><div className="spinner" /><span className="text-sm">Loading...</span></div>
         : filtered.length === 0 ? <div className="text-center py-16" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-3" style={{ fontSize: 48, color: 'var(--grey)' }}>inventory_2</span><p>No exports found</p></div>
         : <div className="overflow-x-auto rounded-xl" style={{ boxShadow: '0 1px 3px rgba(0,0,0,.04)' }}>
-            <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'white' }}>
-              <thead><tr>{['Date','Order Code','Client','Boxs','GW.','Bill THB','Bill MNT','Payment','Box Type','Remark'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'var(--cream)' }}>{h}</th>)}</tr></thead>
+            <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)' }}>
+              <thead><tr>{['Date','Order Code','Client','Boxs','GW.','Bill THB','Bill MNT','Payment','Box Type','Remark'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(79,110,247,0.06)' }}>{h}</th>)}</tr></thead>
               <tbody>{filtered.map(r => <tr key={r.id} onClick={() => openDetail(r)} className="cursor-pointer transition-all hover:bg-cream" style={{ borderBottom: '1px solid var(--border)' }}>
                 <td className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{fmtD(r.export_date)}</td>
                 <td className="px-4 py-3.5 text-sm font-semibold" style={{ color: 'var(--danger)' }}>{r.order_code}</td>
@@ -244,7 +244,7 @@ export default function ExportPage() {
         hasPermission(role, 'export_add') && current && <>
           <button onClick={() => openExportForm(current)} className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ background: 'var(--success)', color: 'white' }}><span className="material-icons-outlined" style={{ fontSize: 16 }}>receipt_long</span>Export Form</button>
           <button onClick={() => printExportPDF(current, detailBoxes)} className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5" style={{ border: '1.5px solid var(--info)', color: 'var(--info)' }}><span className="material-icons-outlined" style={{ fontSize: 16 }}>print</span>Print</button>
-          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Edit</button>
+          <button onClick={() => openEdit(current)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Edit</button>
           <button onClick={() => setConfirmOpen(true)} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--danger)' }}>Delete</button>
         </>
       }>
@@ -266,7 +266,7 @@ export default function ExportPage() {
               {hasPermission(role, 'export_add') && <button onClick={openBoxFormFromDetail} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white flex items-center gap-1" style={{ background: 'var(--latte)' }}><span className="material-icons-outlined" style={{ fontSize: 14 }}>add_box</span>Add Box</button>}
             </div>
             {detailBoxes.length === 0 && <div className="text-center py-6" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>inbox</span><span className="text-xs">No boxes yet</span></div>}
-            {detailBoxes.map(b => <div key={b.id} onClick={() => { setCurrentBox(b); setBoxDetailOpen(true); }} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'var(--cream)', border: '1px solid var(--border)' }}>
+            {detailBoxes.map(b => <div key={b.id} onClick={() => { setCurrentBox(b); setBoxDetailOpen(true); }} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
               <div className="flex justify-between items-center"><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{b.box_code||'No code'}</span><span className="text-xs" style={{ color: 'var(--text-muted)' }}>Dim: {b.dimension} | GW: {b.gross_weight}kg</span></div>
               <div className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{b.items?.item||'-'} | WR: {b.weight_result}kg</div>
             </div>)}
@@ -296,7 +296,7 @@ export default function ExportPage() {
       </Modal>
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Export' : 'Add Export'} footer={<>
-        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+        <button onClick={() => setModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
         <button onClick={save} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save</button>
       </>}>
         {editing && <F label="Order Code"><input value={editing.order_code} readOnly className={inputCls} style={roStyle} /></F>}
@@ -320,19 +320,19 @@ export default function ExportPage() {
         <F label="Remark"><textarea value={form.remark} onChange={(e) => setForm({...form, remark: e.target.value})} className={inputCls} style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} /></F>
         <div className="mt-2 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="flex items-center justify-between mb-3"><span className="text-sm font-bold" style={{ color: 'var(--danger)' }}>Boxes ({boxes.length})</span><button onClick={() => openBoxForm(null)} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white" style={{ background: 'var(--latte)' }}>+ Add Box</button></div>
-          {boxes.map((b, i) => <div key={b.id||i} className="p-3 rounded-lg mb-2 flex justify-between items-center" style={{ background: 'var(--cream)', border: '1px solid var(--border)' }}>
+          {boxes.map((b, i) => <div key={b.id||i} className="p-3 rounded-lg mb-2 flex justify-between items-center" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
             <div><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{b.box_code||`Box ${i+1}`}</span><span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>Dim: {b.dimension} | GW: {b.gross_weight}kg</span></div>
             <div className="flex gap-2"><button onClick={() => openBoxForm(b)} className="text-xs px-2 py-1 rounded" style={{ background: 'var(--info)', color: 'white' }}>Edit</button><button onClick={() => removeBox(b)} className="text-xs px-2 py-1 rounded" style={{ background: 'var(--danger)', color: 'white' }}>×</button></div>
           </div>)}
         </div>
       </Modal>
 
-      <Modal isOpen={boxModalOpen} onClose={() => setBoxModalOpen(false)} title={editingBox ? 'Edit Box' : 'Add Box'} footer={<><button onClick={() => setBoxModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveBox} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save Box</button></>}>
+      <Modal isOpen={boxModalOpen} onClose={() => setBoxModalOpen(false)} title={editingBox ? 'Edit Box' : 'Add Box'} footer={<><button onClick={() => setBoxModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveBox} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save Box</button></>}>
         <F label="Box Code"><input value={boxForm.box_code} readOnly className={inputCls} style={roStyle} /></F>
         <div className="text-sm font-bold mt-4 mb-3 pt-3" style={{ color: 'var(--danger)', borderTop: '1px solid var(--border)' }}>All Items ({boxItems.length})</div>
-        <div className="p-3 rounded-lg mb-2" style={{ background: 'var(--cream)', border: '1px solid var(--border)' }}>
+        <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
           {boxItems.length > 0 && <div className="mb-3">{boxItems.map((it, idx) => (
-            <div key={idx} className="flex items-center gap-2 mb-1.5 p-2 rounded-lg" style={{ background: 'white', border: '1px solid var(--border)' }}>
+            <div key={idx} className="flex items-center gap-2 mb-1.5 p-2 rounded-lg" style={{ background: 'var(--card-bg)', border: '1px solid var(--border)' }}>
               <span className="text-xs font-mono w-5 text-center" style={{ color: 'var(--text-muted)' }}>{idx+1}</span>
               <span className="flex-1 text-sm">{it.item||'-'}</span>
               <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'var(--beige)', color: 'var(--text-secondary)' }}>{it.unit||0} unit</span>
@@ -362,14 +362,14 @@ export default function ExportPage() {
             <label className="text-xs font-medium mb-1 block" style={{ color: 'var(--text-secondary)' }}>{PHOTO_LABELS[field]}</label>
             <div className="flex flex-wrap gap-2">
               {photos.map((url, i) => <div key={i} className="relative"><img src={url} className="h-16 w-16 object-cover rounded-lg" alt="" /><button onClick={() => removePhoto(field, i)} className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-white text-xs flex items-center justify-center" style={{ background: 'var(--danger)' }}>×</button></div>)}
-              <div onClick={() => document.getElementById(`bp-${field}`).click()} className="w-16 h-16 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer" style={{ borderColor: 'var(--border)', color: 'var(--grey)' }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>add_photo_alternate</span></div>
+              <div onClick={() => document.getElementById(`bp-${field}`).click()} className="w-16 h-16 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer" style={{ borderColor: 'var(--glass-border)', color: 'var(--grey)' }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>add_photo_alternate</span></div>
             </div>
             <input id={`bp-${field}`} type="file" accept="image/*" multiple className="hidden" onChange={(e) => e.target.files.length && handleMultiPhotoUpload(field, Array.from(e.target.files))} />
           </div>;
         })}
       </Modal>
 
-      <Modal isOpen={efModalOpen} onClose={() => setEfModalOpen(false)} title={efEditing ? 'Edit Export Form' : 'New Export Form'} footer={<><button onClick={() => { setEfModalOpen(false); if(current) setDetailOpen(true); }} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveExportForm} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save</button></>}>
+      <Modal isOpen={efModalOpen} onClose={() => setEfModalOpen(false)} title={efEditing ? 'Edit Export Form' : 'New Export Form'} footer={<><button onClick={() => { setEfModalOpen(false); if(current) setDetailOpen(true); }} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveExportForm} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save</button></>}>
         <div className="text-xs font-bold uppercase tracking-wider mb-3 pb-2" style={{ color: 'var(--danger)', borderBottom: '1px solid var(--border)' }}>From Export (Read-only)</div>
         <div className="grid grid-cols-2 gap-3 mb-2"><F label="Export Date"><input value={fmtD(efForm.export_date)} readOnly className={inputCls} style={roStyle} /></F><F label="Order Code"><input value={efForm.order_code||''} readOnly className={inputCls} style={roStyle} /></F></div>
         <F label="Client"><input value={efForm.client||''} readOnly className={inputCls} style={roStyle} /></F>

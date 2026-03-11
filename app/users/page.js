@@ -73,14 +73,14 @@ export default function UsersPage() {
   };
 
   const ic = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
-  const is = { border: '1.5px solid var(--border)' };
+  const is = { border: '1px solid var(--glass-border)' };
 
   return (
     <AppShell>
       <div className="fade-in">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
-            <Link href="/dashboard" className="w-9 h-9 rounded-full border flex items-center justify-center bg-white" style={{ borderColor: 'var(--border)' }}>
+            <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(79,110,247,0.1)', border: '1px solid rgba(79,110,247,0.2)', color: 'var(--accent)' }}>
               <span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span>
             </Link>
             Users
@@ -97,9 +97,9 @@ export default function UsersPage() {
           </div>
         ) : (
           <div className="overflow-x-auto rounded-xl shadow-sm">
-            <table className="w-full border-collapse bg-white rounded-xl overflow-hidden">
+            <table className="w-full border-collapse bg-transparent rounded-xl overflow-hidden">
               <thead>
-                <tr style={{ background: 'var(--cream)' }}>
+                <tr style={{ background: 'rgba(79,110,247,0.06)' }}>
                   {['ID','User_ID','Username','Role','Status','Actions'].map(h => (
                     <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)' }}>{h}</th>
                   ))}
@@ -134,14 +134,14 @@ export default function UsersPage() {
 
       <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit User' : 'Add User'} footer={
         <>
-          <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button>
+          <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button>
           <button onClick={handleSave} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--black)' }}>Save</button>
         </>
       }>
         {editing && (
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-1.5">User ID</label>
-            <input value={editing.user_id} readOnly className={ic} style={{ ...is, background: 'var(--cream)', color: 'var(--text-muted)' }} />
+            <input value={editing.user_id} readOnly className={ic} style={{ ...is, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' }} />
           </div>
         )}
         <div className="mb-4">
