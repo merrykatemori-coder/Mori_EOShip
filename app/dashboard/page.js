@@ -82,13 +82,13 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <div style={{ ...cardStyle, borderColor: 'var(--info)', background: 'white' }}>
-            <div className="text-sm font-semibold mb-2" style={{ color: 'var(--info)' }}>Total Sales (THB)</div>
-            {loading ? miniSpinner : <div className="text-3xl font-bold" style={{ color: 'var(--black)' }}>{fmt(totalTHB)}</div>}
+          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #4361ee, #06b6d4)', color: 'white', boxShadow: '0 4px 20px rgba(67,97,238,0.3)' }}>
+            <div className="text-sm font-semibold mb-2" style={{ opacity: 0.85 }}>Total Sales (THB)</div>
+            {loading ? miniSpinner : <div className="text-3xl font-bold">฿ {fmt(totalTHB)}</div>}
           </div>
-          <div style={{ ...cardStyle, borderColor: 'var(--danger)', background: 'white' }}>
-            <div className="text-sm font-semibold mb-2" style={{ color: 'var(--danger)' }}>Total Sales (MNT)</div>
-            {loading ? miniSpinner : <div className="text-3xl font-bold" style={{ color: 'var(--black)' }}>{fmt(totalMNT)}</div>}
+          <div style={{ padding: '20px 24px', borderRadius: 16, background: 'linear-gradient(135deg, #7c3aed, #4361ee)', color: 'white', boxShadow: '0 4px 20px rgba(124,58,237,0.3)' }}>
+            <div className="text-sm font-semibold mb-2" style={{ opacity: 0.85 }}>Total Sales (MNT)</div>
+            {loading ? miniSpinner : <div className="text-3xl font-bold">₮ {fmt(totalMNT)}</div>}
           </div>
         </div>
 

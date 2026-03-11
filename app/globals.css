@@ -5,23 +5,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --black: #2d1b4e;
+  --black: #0a1628;
   --white: #ffffff;
-  --grey: #b0a8c0;
-  --beige: #ede5f5;
-  --latte: #9b6ddb;
-  --cream: #f5f0fa;
-  --bg: #f8f5fc;
-  --accent: #7c4dbd;
-  --danger: #c0392b;
-  --success: #27ae60;
-  --info: #3b82f6;
-  --border: #e0d8ee;
-  --text-primary: #2d1b4e;
-  --text-secondary: #6b5f80;
-  --text-muted: #a098b0;
-  --gradient-start: #c084fc;
-  --gradient-end: #60cfff;
+  --grey: #8b95a8;
+  --beige: #e8edf5;
+  --latte: #4361ee;
+  --cream: #f0f3ff;
+  --bg: #f5f7fc;
+  --accent: #3a56d4;
+  --danger: #ef4444;
+  --success: #10b981;
+  --info: #06b6d4;
+  --border: #dde3f0;
+  --text-primary: #0a1628;
+  --text-secondary: #4a5568;
+  --text-muted: #94a3b8;
+  --gradient-start: #4361ee;
+  --gradient-end: #06b6d4;
+  --neon-purple: #7c3aed;
+  --neon-blue: #2563eb;
+  --neon-cyan: #06b6d4;
 }
 
 * { box-sizing: border-box; }
@@ -44,7 +47,7 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: #9b6ddb !important;
+  border-color: #4361ee !important;
   box-shadow: 0 0 0 3px rgba(168, 144, 128, 0.12);
   outline: none;
 }
@@ -326,4 +329,29 @@ span.flatpickr-weekday {
   .login-form {
     padding: 32px 24px !important;
   }
+}
+
+.neon-card {
+  transition: all 0.3s ease;
+}
+
+.neon-card:hover {
+  border-color: var(--latte) !important;
+  box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15) !important;
+}
+
+table tr:hover td {
+  background: var(--cream) !important;
+}
+
+.btn-neon {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.btn-neon:hover {
+  box-shadow: 0 4px 16px rgba(67, 97, 238, 0.35);
+  transform: translateY(-1px);
 }

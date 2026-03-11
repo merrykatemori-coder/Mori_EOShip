@@ -42,7 +42,8 @@ export default function ExportPage() {
   const [boxes, setBoxes] = useState([]);
   const [boxModalOpen, setBoxModalOpen] = useState(false);
   const [boxForm, setBoxForm] = useState({});
-  const [boxItems, setBoxItems] = useState({ item: '', unit: '', type: '' });
+  const [boxItems, setBoxItems] = useState([]);
+  const [newItem, setNewItem] = useState({ item: '', unit: '', type: '' });
   const [boxPhotos, setBoxPhotos] = useState({});
   const [editingBox, setEditingBox] = useState(null);
   const [boxDetailOpen, setBoxDetailOpen] = useState(false);
@@ -136,12 +137,16 @@ export default function ExportPage() {
     if (box) {
       setEditingBox(box);
       setBoxForm({ box_code: box.box_code||'', box_w: box.box_w||'', box_h: box.box_h||'', box_l: box.box_l||'', gross_weight: box.gross_weight||'', weight_result: box.weight_result||'' });
-      setBoxItems(box.items || { item: '', unit: '', type: '' });
+      const raw = box.items || [];
+      const parsed = typeof raw === 'string' ? JSON.parse(raw || '[]') : raw;
+      setBoxItems(Array.isArray(parsed) ? parsed : [parsed]);
+      setNewItem({ item: '', unit: '', type: '' });
       setBoxPhotos(box.photos || {});
     } else {
       setEditingBox(null);
       setBoxForm({ box_code: getBoxCode(oc, count), box_w: '', box_h: '', box_l: '', gross_weight: '', weight_result: '' });
-      setBoxItems({ item: '', unit: '', type: '' });
+      setBoxItems([]);
+      setNewItem({ item: '', unit: '', type: '' });
       setBoxPhotos({});
     }
     setBoxModalOpen(true);
@@ -324,10 +329,22 @@ export default function ExportPage() {
 
       <Modal isOpen={boxModalOpen} onClose={() => setBoxModalOpen(false)} title={editingBox ? 'Edit Box' : 'Add Box'} footer={<><button onClick={() => setBoxModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1.5px solid var(--border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveBox} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save Box</button></>}>
         <F label="Box Code"><input value={boxForm.box_code} readOnly className={inputCls} style={roStyle} /></F>
-        <div className="text-sm font-bold mt-4 mb-3 pt-3" style={{ color: 'var(--danger)', borderTop: '1px solid var(--border)' }}>All Item</div>
+        <div className="text-sm font-bold mt-4 mb-3 pt-3" style={{ color: 'var(--danger)', borderTop: '1px solid var(--border)' }}>All Items ({boxItems.length})</div>
         <div className="p-3 rounded-lg mb-2" style={{ background: 'var(--cream)', border: '1px solid var(--border)' }}>
-          <div className="flex gap-2 mb-2"><input placeholder="Item name" value={boxItems.item||''} onChange={(e) => setBoxItems({...boxItems, item: e.target.value})} className={`${inputCls} flex-1`} style={inputStyle} /><input placeholder="Unit" type="number" value={boxItems.unit||''} onChange={(e) => setBoxItems({...boxItems, unit: e.target.value})} className={inputCls} style={{ ...inputStyle, width: 70 }} /></div>
-          <select value={boxItems.type||''} onChange={(e) => setBoxItems({...boxItems, type: e.target.value})} className={inputCls} style={inputStyle}><option value="">Select type</option>{getOpts('item_types').map(t => <option key={t.id} value={t.value}>{t.label}</option>)}</select>
+          {boxItems.length > 0 && <div className="mb-3">{boxItems.map((it, idx) => (
+            <div key={idx} className="flex items-center gap-2 mb-1.5 p-2 rounded-lg" style={{ background: 'white', border: '1px solid var(--border)' }}>
+              <span className="text-xs font-mono w-5 text-center" style={{ color: 'var(--text-muted)' }}>{idx+1}</span>
+              <span className="flex-1 text-sm">{it.item||'-'}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'var(--beige)', color: 'var(--text-secondary)' }}>{it.unit||0} unit</span>
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{it.type||'-'}</span>
+              <button onClick={() => setBoxItems(prev => prev.filter((_, i) => i !== idx))} className="w-5 h-5 rounded-full flex items-center justify-center text-xs text-white" style={{ background: 'var(--danger)' }}>×</button>
+            </div>
+          ))}</div>}
+          <div className="flex gap-2 mb-2"><input placeholder="Item name" value={newItem.item||''} onChange={(e) => setNewItem({...newItem, item: e.target.value})} className={`${inputCls} flex-1`} style={inputStyle} /><input placeholder="Unit" type="number" value={newItem.unit||''} onChange={(e) => setNewItem({...newItem, unit: e.target.value})} className={inputCls} style={{ ...inputStyle, width: 70 }} /></div>
+          <div className="flex gap-2">
+            <select value={newItem.type||''} onChange={(e) => setNewItem({...newItem, type: e.target.value})} className={`${inputCls} flex-1`} style={inputStyle}><option value="">Select type</option>{getOpts('item_types').map(t => <option key={t.id} value={t.value}>{t.label}</option>)}</select>
+            <button onClick={() => { if (!newItem.item) return; setBoxItems(prev => [...prev, { ...newItem }]); setNewItem({ item: '', unit: '', type: '' }); }} className="px-4 py-2 rounded-lg text-sm font-semibold text-white flex-shrink-0" style={{ background: 'var(--latte)' }}>+ Add</button>
+          </div>
         </div>
         <div className="text-sm font-bold mt-4 mb-3 pt-3" style={{ color: 'var(--danger)', borderTop: '1px solid var(--border)' }}>Box Size (cm.)</div>
         <div className="grid grid-cols-3 gap-2 mb-2">
