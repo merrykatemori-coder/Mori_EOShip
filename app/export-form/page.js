@@ -18,7 +18,7 @@ function F({ label, children }) {
 
 const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
 const inputStyle = { border: '1px solid var(--glass-border)' };
-const roStyle = { ...inputStyle, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' };
+const roStyle = { ...inputStyle, background: 'rgba(108,92,231,0.08)', color: 'var(--text-muted)' };
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtD = (d) => { if (!d) return '-'; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; };
 
@@ -151,7 +151,7 @@ export default function ExportFormPage() {
             <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)' }}>
               <thead><tr>
                 {['Date','Order Code','Client','Boxes','WR','Total THB','Total MNT','Type','Invoice'].map(h => (
-                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(79,110,247,0.06)' }}>{h}</th>
+                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(108,92,231,0.08)' }}>{h}</th>
                 ))}
               </tr></thead>
               <tbody>
@@ -186,7 +186,7 @@ export default function ExportFormPage() {
         <div style={{ maxHeight: 350, overflowY: 'auto' }}>
           {filteredExports.length === 0 ? <div className="text-center py-8 text-sm" style={{ color: 'var(--text-muted)' }}>No exports found</div> :
             filteredExports.map(exp => (
-              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
+              <div key={exp.id} onClick={() => selectExport(exp)} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(108,92,231,0.08)', border: '1px solid var(--border)' }}>
                 <div className="flex justify-between items-center"><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{exp.order_code}</span><span className="text-xs" style={{ color: 'var(--text-muted)' }}>{fmtD(exp.export_date)}</span></div>
                 <div className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>{exp.client} — {exp.total_boxs || 0} boxes</div>
               </div>

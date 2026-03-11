@@ -21,7 +21,7 @@ function F({ label, children }) {
 
 const inputCls = "w-full px-3.5 py-2.5 rounded-lg text-sm outline-none transition-all";
 const inputStyle = { border: '1px solid var(--glass-border)' };
-const roStyle = { ...inputStyle, background: 'rgba(79,110,247,0.06)', color: 'var(--text-muted)' };
+const roStyle = { ...inputStyle, background: 'rgba(108,92,231,0.08)', color: 'var(--text-muted)' };
 const fmt = (n) => (parseFloat(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const fmtD = (d) => { if (!d) return '-'; const p = d.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : d; };
 
@@ -223,7 +223,7 @@ export default function ExportPage() {
         : filtered.length === 0 ? <div className="text-center py-16" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-3" style={{ fontSize: 48, color: 'var(--grey)' }}>inventory_2</span><p>No exports found</p></div>
         : <div className="overflow-x-auto rounded-xl" style={{ boxShadow: '0 1px 3px rgba(0,0,0,.04)' }}>
             <table className="w-full border-collapse rounded-xl overflow-hidden" style={{ background: 'var(--card-bg)' }}>
-              <thead><tr>{['Date','Order Code','Client','Boxs','GW.','Bill THB','Bill MNT','Payment','Box Type','Remark'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(79,110,247,0.06)' }}>{h}</th>)}</tr></thead>
+              <thead><tr>{['Date','Order Code','Client','Boxs','GW.','Bill THB','Bill MNT','Payment','Box Type','Remark'].map(h => <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap" style={{ color: 'var(--text-muted)', borderBottom: '2px solid var(--border)', background: 'rgba(108,92,231,0.08)' }}>{h}</th>)}</tr></thead>
               <tbody>{filtered.map(r => <tr key={r.id} onClick={() => openDetail(r)} className="cursor-pointer transition-all hover:bg-cream" style={{ borderBottom: '1px solid var(--border)' }}>
                 <td className="px-4 py-3.5 text-sm" style={{ color: 'var(--text-secondary)' }}>{fmtD(r.export_date)}</td>
                 <td className="px-4 py-3.5 text-sm font-semibold" style={{ color: 'var(--danger)' }}>{r.order_code}</td>
@@ -266,7 +266,7 @@ export default function ExportPage() {
               {hasPermission(role, 'export_add') && <button onClick={openBoxFormFromDetail} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white flex items-center gap-1" style={{ background: 'var(--latte)' }}><span className="material-icons-outlined" style={{ fontSize: 14 }}>add_box</span>Add Box</button>}
             </div>
             {detailBoxes.length === 0 && <div className="text-center py-6" style={{ color: 'var(--text-muted)' }}><span className="material-icons-outlined block mb-1" style={{ fontSize: 32, color: 'var(--grey)' }}>inbox</span><span className="text-xs">No boxes yet</span></div>}
-            {detailBoxes.map(b => <div key={b.id} onClick={() => { setCurrentBox(b); setBoxDetailOpen(true); }} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
+            {detailBoxes.map(b => <div key={b.id} onClick={() => { setCurrentBox(b); setBoxDetailOpen(true); }} className="p-3 rounded-lg mb-2 cursor-pointer transition-all hover:shadow-sm" style={{ background: 'rgba(108,92,231,0.08)', border: '1px solid var(--border)' }}>
               <div className="flex justify-between items-center"><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{b.box_code||'No code'}</span><span className="text-xs" style={{ color: 'var(--text-muted)' }}>Dim: {b.dimension} | GW: {b.gross_weight}kg</span></div>
               <div className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{b.items?.item||'-'} | WR: {b.weight_result}kg</div>
             </div>)}
@@ -320,7 +320,7 @@ export default function ExportPage() {
         <F label="Remark"><textarea value={form.remark} onChange={(e) => setForm({...form, remark: e.target.value})} className={inputCls} style={{ ...inputStyle, minHeight: 80, resize: 'vertical' }} /></F>
         <div className="mt-2 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="flex items-center justify-between mb-3"><span className="text-sm font-bold" style={{ color: 'var(--danger)' }}>Boxes ({boxes.length})</span><button onClick={() => openBoxForm(null)} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white" style={{ background: 'var(--latte)' }}>+ Add Box</button></div>
-          {boxes.map((b, i) => <div key={b.id||i} className="p-3 rounded-lg mb-2 flex justify-between items-center" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
+          {boxes.map((b, i) => <div key={b.id||i} className="p-3 rounded-lg mb-2 flex justify-between items-center" style={{ background: 'rgba(108,92,231,0.08)', border: '1px solid var(--border)' }}>
             <div><span className="text-sm font-semibold" style={{ color: 'var(--danger)' }}>{b.box_code||`Box ${i+1}`}</span><span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>Dim: {b.dimension} | GW: {b.gross_weight}kg</span></div>
             <div className="flex gap-2"><button onClick={() => openBoxForm(b)} className="text-xs px-2 py-1 rounded" style={{ background: 'var(--info)', color: 'white' }}>Edit</button><button onClick={() => removeBox(b)} className="text-xs px-2 py-1 rounded" style={{ background: 'var(--danger)', color: 'white' }}>×</button></div>
           </div>)}
@@ -330,7 +330,7 @@ export default function ExportPage() {
       <Modal isOpen={boxModalOpen} onClose={() => setBoxModalOpen(false)} title={editingBox ? 'Edit Box' : 'Add Box'} footer={<><button onClick={() => setBoxModalOpen(false)} className="px-4 py-2 rounded-lg text-sm font-semibold" style={{ border: '1px solid var(--glass-border)', color: 'var(--text-secondary)' }}>Cancel</button><button onClick={saveBox} className="px-4 py-2 rounded-lg text-sm font-semibold text-white" style={{ background: 'var(--latte)' }}>Save Box</button></>}>
         <F label="Box Code"><input value={boxForm.box_code} readOnly className={inputCls} style={roStyle} /></F>
         <div className="text-sm font-bold mt-4 mb-3 pt-3" style={{ color: 'var(--danger)', borderTop: '1px solid var(--border)' }}>All Items ({boxItems.length})</div>
-        <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(79,110,247,0.06)', border: '1px solid var(--border)' }}>
+        <div className="p-3 rounded-lg mb-2" style={{ background: 'rgba(108,92,231,0.08)', border: '1px solid var(--border)' }}>
           {boxItems.length > 0 && <div className="mb-3">{boxItems.map((it, idx) => (
             <div key={idx} className="flex items-center gap-2 mb-1.5 p-2 rounded-lg" style={{ background: 'var(--card-bg)', border: '1px solid var(--border)' }}>
               <span className="text-xs font-mono w-5 text-center" style={{ color: 'var(--text-muted)' }}>{idx+1}</span>
