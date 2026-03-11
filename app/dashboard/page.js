@@ -96,11 +96,11 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3.5">
           {quickItems.map(item => (
             hasPermission(role, item.perm) && (
-              <Link key={item.label} href={item.path} className="rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1 block" style={{ background: 'var(--card-bg)', border: '1px solid var(--glass-border)', backdropFilter: 'blur(16px)', boxShadow: '0 2px 10px rgba(0,0,0,0.2)', textDecoration: 'none' }}>
-                <div className="rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3" style={{ background: 'rgba(167,139,250,0.12)', width: 44, height: 44, color: 'var(--accent)', border: '1px solid rgba(167,139,250,0.2)' }}>
-                  <span className="material-icons-outlined" style={{ fontSize: 22 }}>{item.icon}</span>
+              <Link key={item.label} href={item.path} className="neon-module-card rounded-xl p-4 sm:p-6 text-center cursor-pointer transition-all hover:-translate-y-1.5 block" style={{ background: 'linear-gradient(145deg, rgba(108,92,231,0.5) 0%, rgba(79,110,247,0.4) 50%, rgba(6,182,213,0.3) 100%)', border: '1px solid rgba(167,139,250,0.25)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(108,92,231,0.2), inset 0 1px 0 rgba(255,255,255,0.08)', textDecoration: 'none' }}>
+                <div className="flex items-center justify-center mx-auto mb-2 sm:mb-3" style={{ width: 48, height: 48, color: 'white', filter: 'drop-shadow(0 0 8px rgba(167,139,250,0.5))' }}>
+                  <span className="material-icons-outlined" style={{ fontSize: 28 }}>{item.icon}</span>
                 </div>
-                <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>{item.label}</span>
+                <span className="text-sm font-bold" style={{ color: 'white', textShadow: '0 1px 4px rgba(0,0,0,0.3)' }}>{item.label}</span>
               </Link>
             )
           ))}

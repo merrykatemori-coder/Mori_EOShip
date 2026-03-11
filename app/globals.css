@@ -244,3 +244,42 @@ span.flatpickr-weekday { color: var(--accent) !important; font-weight: 600 !impo
   table { font-size: 12px; }
   table th, table td { padding: 8px 6px !important; }
 }
+
+.neon-module-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.neon-module-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(167,139,250,0.5), rgba(0,212,255,0.4), rgba(167,139,250,0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.neon-module-card:hover::before {
+  opacity: 1;
+}
+
+.neon-module-card:hover {
+  box-shadow: 0 8px 32px rgba(108,92,231,0.4), 0 0 20px rgba(167,139,250,0.15), inset 0 1px 0 rgba(255,255,255,0.12) !important;
+}
+
+button[style*="var(--latte)"],
+button[style*="var(--black)"] {
+  transition: all 0.25s ease;
+}
+
+button[style*="var(--latte)"]:hover,
+button[style*="var(--black)"]:hover {
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4), 0 0 12px rgba(167, 139, 250, 0.2);
+  transform: translateY(-1px);
+}

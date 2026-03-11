@@ -215,7 +215,7 @@ export default function ExportPage() {
             <Link href="/dashboard" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ borderColor: "var(--border)" }}><span className="material-icons-outlined" style={{ fontSize: 20 }}>arrow_back</span></Link>
             Export
           </h2>
-          {hasPermission(role, 'export_add') && <button onClick={openAdd} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'var(--black)' }}>+ Add Export</button>}
+          {hasPermission(role, 'export_add') && <button onClick={openAdd} className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all hover:-translate-y-0.5" style={{ background: 'linear-gradient(135deg, #6c5ce7, #00d4ff)', boxShadow: '0 4px 16px rgba(108,92,231,0.3)' }}>+ Add Export</button>}
         </div>
         <div className="relative mb-5"><span className="material-icons-outlined absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)', fontSize: 20 }}>search</span><input type="text" placeholder="Search tracking, client..." value={search} onChange={(e) => setSearch(e.target.value)} className={`${inputCls} pl-11`} style={{ ...inputStyle, background: 'var(--white)' }} /></div>
 
